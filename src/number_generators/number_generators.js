@@ -62,27 +62,27 @@ export function* repeatedDigits(): InterestingNumberGenerator {
   }
 }
 
+export function* countingUp(): InterestingNumberGenerator {
+  // https://oeis.org/A057137
+  // 1, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789,
+  // 1234567890, 12345678901, 123456789012, ...
+  // Start at 5 digits (12345)
+  for (const exponent of count(5)) {
+    const powerOfTen = 10 ** exponent;
+    // Magic from OEIS
+    const value = Math.floor(137174210 / 1111111111 * powerOfTen);
+    yield {
+      category: "counting_up",
+      value: value
+    };
+  }
+}
+
 const GENERATORS: Array<() => InterestingNumberGenerator> = [
   powersOfTen,
-  // powersOfTwo,
+  powersOfTwo,
   factorsOfTen,
-  repeatedDigits
+  repeatedDigits,
+  countingUp
 ];
 export default GENERATORS;
-
-// def counting_up():
-//     # https://oeis.org/A057137
-//     # 1, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789,
-//     # 1234567890, 12345678901, 123456789012, ...
-//     # Start at 5 digits (12345)
-//     for x in count(5):
-//         power_of_ten = 10 ** x
-//         # Magic from OEIS
-//         value = floor((137174210 / 1111111111) * power_of_ten)
-//         with_commas = "{:,}".format(value)
-//         yield Number(
-//             value=value,
-//             display_value=with_commas,
-//             formatted_value=with_commas,
-//             category="ascending digits",
-//         )
